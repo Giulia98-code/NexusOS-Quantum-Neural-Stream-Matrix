@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NexusOS // The Ultimate Sci-Fi Twitch & Portfolio Interface</title>
+    <title>NexusOS // Quantum Neural Stream Matrix</title>
     <style>
         :root {
             --bg: #030305;
@@ -19,18 +19,21 @@
             background-color: var(--bg);
             color: var(--text);
             font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.6;
+            height: 100vh;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 320px 1fr 360px;
+            grid-template-rows: 60px 1fr;
         }
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 40px;
-            border-bottom: 1px solid var(--border);
+            grid-column: 1 / -1;
             background: rgba(3, 3, 5, 0.95);
-            position: fixed;
-            top: 0; width: 100%;
-            z-index: 100;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            z-index: 10;
             backdrop-filter: blur(10px);
         }
         .logo {
@@ -40,158 +43,343 @@
             background: linear-gradient(45deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(0,255,204,0.3);
         }
-        .hero {
-            padding: 160px 20px 80px 20px;
-            text-align: center;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        .badge-price {
-            display: inline-block;
-            background: rgba(0,255,204,0.1);
-            border: 1px solid var(--primary);
-            color: var(--primary);
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-family: monospace;
-            font-size: 0.9rem;
-            margin-bottom: 20px;
-            letter-spacing: 1px;
-        }
-        h1 {
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 20px;
-            letter-spacing: -1px;
-            color: #fff;
-        }
-        h1 span {
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        p.subtitle {
-            font-size: 1.2rem;
-            color: #9a9ab0;
-            margin-bottom: 40px;
-        }
-        .btn-buy {
-            display: inline-block;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            color: #000;
-            padding: 16px 36px;
-            font-weight: 700;
-            border-radius: 12px;
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 1rem;
-            box-shadow: 0 0 25px rgba(0,255,204,0.4);
-            transition: all 0.2s ease;
-        }
-        .btn-buy:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 40px rgba(0,255,204,0.7);
-        }
-        .preview-container {
-            max-width: 1100px;
-            margin: 40px auto 100px auto;
-            padding: 0 20px;
-        }
-        .preview-box {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-        }
-        .preview-header {
-            background: rgba(0,0,0,0.5);
-            padding: 12px 20px;
-            border-bottom: 1px solid var(--border);
+        .status-pill {
             display: flex;
             align-items: center;
             gap: 8px;
+            background: rgba(0,255,204,0.05);
+            border: 1px solid var(--border);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-family: monospace;
         }
-        .dot { width: 10px; height: 10px; border-radius: 50%; background: #ff5f56; }
-        .dot:nth-child(2) { background: #ffbd2e; }
-        .dot:nth-child(3) { background: #27c93f; }
-        
-        iframe {
+        .pulse {
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--primary);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0% { transform: scale(0.95); opacity: 0.8; } 50% { transform: scale(1.2); opacity: 1; filter: drop-shadow(0 0 8px var(--primary)); } 100% { transform: scale(0.95); opacity: 0.8; } }
+
+        aside {
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 5;
+            overflow-y: auto;
+        }
+        .panel {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            backdrop-filter: blur(5px);
+        }
+        .panel h3 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--primary);
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .metric {
+            font-size: 1.8rem;
+            font-weight: 700;
+            font-family: monospace;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255,255,255,0.2);
+        }
+        .sub-metric { font-size: 0.75rem; color: #8a8a9d; margin-top: 4px; }
+
+        main {
+            position: relative;
+            background: radial-gradient(circle at center, #0a0a16 0%, #030305 100%);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #canvas-3d {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1;
+        }
+        .hud-overlay {
+            position: absolute;
+            top: 20px; left: 20px; right: 20px;
+            display: flex;
+            justify-content: space-between;
+            pointer-events: none;
+            z-index: 2;
+        }
+        .hud-card {
+            background: rgba(3,3,5,0.7);
+            border: 1px solid var(--border);
+            padding: 10px 16px;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+            font-family: monospace;
+            font-size: 0.8rem;
+            pointer-events: auto;
+        }
+
+        .right-panel {
+            background: var(--surface);
+            border-left: 1px solid var(--border);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 5;
+            overflow-y: auto;
+        }
+        .console {
+            flex-grow: 1;
+            background: #010103;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px;
+            font-family: monospace;
+            font-size: 0.75rem;
+            color: #00ffcc;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            min-height: 120px;
+        }
+        .console-line { opacity: 0.8; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 0.8; transform: translateY(0); } }
+
+        .btn-action {
+            display: block;
             width: 100%;
-            height: 600px;
-            border: none;
-            background: #000;
-        }
-        footer {
             text-align: center;
-            padding: 40px;
-            border-top: 1px solid var(--border);
-            color: #7a7a90;
-            font-size: 0.9rem;
+            text-decoration: none;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: #000;
+            border: none;
+            padding: 14px;
+            font-weight: 800;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+            box-shadow: 0 0 20px rgba(0,255,204,0.4);
+        }
+        .btn-action:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(0,255,204,0.7); }
+        
+        .slider-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 10px;
+        }
+        .slider-group label { font-size: 0.75rem; color: var(--text-muted); display: flex; justify-content: space-between; }
+        input[type=range] {
+            width: 100%;
+            accent-color: var(--primary);
+            background: #111;
+            height: 4px;
+            border-radius: 2px;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo">NEXUS_OS // 2026</div>
-        <a href="https://paypal.me/tuonome/100" class="btn-buy" style="padding: 10px 20px; font-size: 0.85rem;" target="_blank">Get Source (€100)</a>
+        <div class="logo">NEXUS_OS // 2026.AI</div>
+        <div class="status-pill">
+            <div class="pulse"></div>
+            QUANTUM SYNAPSE ACTIVE
+        </div>
+        <div style="font-family: monospace; font-size: 0.8rem; color: #8a8a9d;">LATENCY: 0.14ms</div>
     </header>
 
-    <section class="hero">
-        <div class="badge-price">PRO LICENSE // €100</div>
-        <h1>Upgrade Your Stream to <span>Quantum Sci-Fi</span></h1>
-        <p class="subtitle">The ultimate interactive cyberpunk dashboard and stream interface. Built for elite Twitch creators, developers, and portfolios.</p>
-        <a href="https://paypal.me/tuonome/100" class="btn-buy" target="_blank">Buy Complete Source Code (€100)</a>
-    </section>
-
-    <div class="preview-container">
-        <h3 style="margin-bottom: 15px; font-family: monospace; color: var(--primary);">&#x25BA; LIVE INTERACTIVE PREVIEW</h3>
-        <div class="preview-box">
-            <div class="preview-header">
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <span style="font-family: monospace; font-size: 0.8rem; margin-left: 10px; color: #7a7a90;">nexus-os-preview.html</span>
+    <aside>
+        <div class="panel">
+            <h3>Neural Flux <span>[LIVE]</span></h3>
+            <div class="metric" id="flux-metric">98.42%</div>
+            <div class="sub-metric">Synaptic coherence stable</div>
+        </div>
+        <div class="panel">
+            <h3>Memory Lattice</h3>
+            <div class="metric" id="mem-metric">1.28 PB</div>
+            <div class="sub-metric">Hyperdimensional tensor grid</div>
+        </div>
+        <div class="panel">
+            <h3>Control Matrix</h3>
+            <div class="slider-group">
+                <label><span>Entropy Level</span><span id="val-entropy">0.45</span></label>
+                <input type="range" id="slider-entropy" min="0" max="1" step="0.01" value="0.45">
             </div>
-            <iframe srcdoc='<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"><style>
-:root{--bg:#030305;--primary:#00ffcc;--secondary:#ff007f;--text:#e0e0e8;--surface:rgba(10,10,18,0.85);--border:rgba(0,255,204,0.2);}
-body{background:var(--bg);color:var(--text);font-family:sans-serif;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;margin:0;}
-canvas{position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;}
-.box{position:relative;z-index:2;background:var(--surface);border:1px solid var(--border);padding:30px;border-radius:16px;text-align:center;backdrop-filter:blur(10px);max-width:400px;}
-h2{margin-bottom:10px;color:var(--primary);letter-spacing:1px;}
-p{font-size:0.9rem;color:#aaa;margin-bottom:20px;}
-.btn{background:var(--primary);color:#000;border:none;padding:10px 20px;font-weight:bold;border-radius:8px;cursor:pointer;}
-</style></head>
-<body>
-<canvas id="c"></canvas>
-<div class="box">
-<h2>NEXUS OS DEMO</h2>
-<p>Interactive 3D Neural Matrix Engine. Fully responsive & customizable.</p>
-<button class="btn" onclick="alert(&#39;This is a live preview simulation!&#39;)">Test Interaction</button>
-</div>
-<script>
-const cvs=document.getElementById("c"),cx=cvs.getContext("2d");
-function resize(){cvs.width=window.innerWidth;cvs.height=window.innerHeight;}
-window.addEventListener("resize",resize);resize();
-let pts=[];for(let i=0;i<150;i++)pts.push({x:(Math.random()-0.5)*cvs.width,y:(Math.random()-0.5)*cvs.height,vx:(Math.random()-0.5)*1.5,vy:(Math.random()-0.5)*1.5,c:Math.random()>0.5?"#00ffcc":"#ff007f"});
-function loop(){
-cx.fillStyle="rgba(3,3,5,0.2)";cx.fillRect(0,0,cvs.width,cvs.height);
-pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>cvs.width)p.vx*=-1;if(p.y<0||p.y>cvs.height)p.vy*=-1;cx.fillStyle=p.c;cx.fillRect(p.x,p.y,2,2);});
-requestAnimationFrame(loop);
-}loop();
-</script></body></html>'></iframe>
+            <div class="slider-group" style="margin-top:12px;">
+                <label><span>Node Resonance</span><span id="val-resonance">7.83Hz</span></label>
+                <input type="range" id="slider-resonance" min="1" max="20" step="0.1" value="7.83">
+            </div>
+        </div>
+    </aside>
+
+    <main>
+        <div class="hud-overlay">
+            <div class="hud-card">DIMENSION: CYBER-SPATIAL 4D</div>
+            <div class="hud-card" id="fps-counter">FPS: 60</div>
+        </div>
+        <canvas id="canvas-3d"></canvas>
+    </main>
+
+    <div class="right-panel">
+        <div class="panel" style="flex-shrink:0; border-color: var(--primary);">
+            <h3 style="color: var(--primary);">Acquire Pro License</h3>
+            <p style="font-size:0.75rem; color: #aaa; margin-bottom: 12px;">Get full source code access for your stream or portfolio.</p>
+            <!-- Sostituisci "tuonome" con il tuo handle PayPal -->
+            <a href="https://paypal.me/tuonome/100" class="btn-action" target="_blank">Get Source (€100)</a>
+        </div>
+        <div class="panel" style="display:flex; flex-direction:column; flex-grow:1; min-height: 0;">
+            <h3>Quantum Console</h3>
+            <div class="console" id="console-output">
+                <div class="console-line">> System initialized successfully.</div>
+                <div class="console-line">> Neural matrix loaded into VRAM.</div>
+                <div class="console-line">> Awaiting user parameter injection...</div>
+            </div>
         </div>
     </div>
 
-    <footer>
-        <p>&copy; 2026 NexusOS. Instant digital delivery via GitHub. Secure payment processed by PayPal.</p>
-    </footer>
+    <script>
+        const canvas = document.getElementById('canvas-3d');
+        const ctx = canvas.getContext('2d');
 
+        function resize() {
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = canvas.parentElement.clientHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        let particles = [];
+        let numParticles = 300;
+        let entropy = 0.45;
+        let resonance = 7.83;
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = (Math.random() - 0.5) * canvas.width;
+                this.y = (Math.random() - 0.5) * canvas.height;
+                this.z = Math.random() * 800 - 400;
+                this.vx = (Math.random() - 0.5) * 2;
+                this.vy = (Math.random() - 0.5) * 2;
+                this.vz = (Math.random() - 0.5) * 2;
+                this.color = Math.random() > 0.5 ? '#00ffcc' : '#ff007f';
+                this.size = Math.random() * 2 + 1;
+            }
+            update() {
+                let angle = Date.now() * 0.001 * resonance * 0.1;
+                this.x += Math.sin(angle) * entropy * 3 + this.vx;
+                this.y += Math.cos(angle) * entropy * 3 + this.vy;
+                this.z += this.vz;
+
+                if (this.z < -400 || this.z > 400 || Math.abs(this.x) > canvas.width || Math.abs(this.y) > canvas.height) {
+                    this.reset();
+                }
+            }
+            draw() {
+                let fov = 400;
+                let scale = fov / (fov + this.z);
+                let x2d = canvas.width / 2 + this.x * scale;
+                let y2d = canvas.height / 2 + this.y * scale;
+
+                if (x2d >= 0 && x2d <= canvas.width && y2d >= 0 && y2d <= canvas.height) {
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    ctx.arc(x2d, y2d, this.size * scale, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+        }
+
+        for (let i = 0; i < numParticles; i++) particles.push(new Particle());
+
+        let lastTime = performance.now();
+        let frameCount = 0;
+        let fps = 60;
+
+        function animate(time) {
+            frameCount++;
+            if (time - lastTime >= 1000) {
+                fps = frameCount;
+                frameCount = 0;
+                lastTime = time;
+                document.getElementById('fps-counter').innerText = `FPS: ${fps}`;
+            }
+
+            ctx.fillStyle = 'rgba(3, 3, 5, 0.2)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            let cx = canvas.width / 2;
+            let cy = canvas.height / 2;
+            let timeFactor = time * 0.001 * resonance;
+
+            ctx.strokeStyle = 'rgba(0, 255, 204, 0.08)';
+            ctx.lineWidth = 1;
+            for (let r = 50; r < 400; r += 60) {
+                ctx.beginPath();
+                ctx.arc(cx, cy, r + Math.sin(timeFactor + r) * 10 * entropy, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            requestAnimationFrame(animate);
+        }
+        requestAnimationFrame(animate);
+
+        const sliderEntropy = document.getElementById('slider-entropy');
+        const valEntropy = document.getElementById('val-entropy');
+        sliderEntropy.addEventListener('input', (e) => {
+            entropy = parseFloat(e.target.value);
+            valEntropy.innerText = entropy.toFixed(2);
+            logConsole(`Entropy adjusted to ${entropy}`);
+        });
+
+        const sliderResonance = document.getElementById('slider-resonance');
+        const valResonance = document.getElementById('val-resonance');
+        sliderResonance.addEventListener('input', (e) => {
+            resonance = parseFloat(e.target.value);
+            valResonance.innerText = resonance.toFixed(1) + 'Hz';
+            logConsole(`Resonance frequency shifted to ${resonance}Hz`);
+        });
+
+        const consoleOutput = document.getElementById('console-output');
+        function logConsole(text) {
+            const line = document.createElement('div');
+            line.className = 'console-line';
+            line.innerText = `> ${text}`;
+            consoleOutput.appendChild(line);
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        }
+
+        setInterval(() => {
+            const flux = (97 + Math.random() * 2.98).toFixed(2);
+            document.getElementById('flux-metric').innerText = flux + '%';
+        }, 1500);
+    </script>
 </body>
 </html>
