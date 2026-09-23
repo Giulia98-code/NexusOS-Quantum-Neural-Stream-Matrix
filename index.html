@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NexusOS // Quantum Cybernetic Shop</title>
+    <title>NexusOS // Quantum Neural Stream Matrix</title>
     <style>
         :root {
             --bg: #030305;
@@ -19,288 +19,414 @@
             background-color: var(--bg);
             color: var(--text);
             font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            overflow-x: hidden;
+            height: 100vh;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 320px 1fr 380px;
+            grid-template-rows: 60px 1fr;
         }
-        
-        /* Header Cyber Shop */
+
+        /* Top Header */
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 40px;
-            border-bottom: 1px solid var(--border);
+            grid-column: 1 / -1;
             background: rgba(3, 3, 5, 0.95);
-            position: fixed;
-            top: 0; width: 100%;
-            z-index: 100;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            z-index: 10;
             backdrop-filter: blur(10px);
         }
         .logo {
             font-weight: 800;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             letter-spacing: 2px;
             background: linear-gradient(45deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .shop-badge {
-            font-family: monospace;
-            font-size: 0.8rem;
+        .status-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             background: rgba(0,255,204,0.05);
             border: 1px solid var(--border);
             padding: 6px 14px;
             border-radius: 20px;
+            font-size: 0.75rem;
+            font-family: monospace;
             color: var(--primary);
         }
+        .pulse {
+            width: 7px;
+            height: 7px;
+            background: var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--primary);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0% { transform: scale(0.95); opacity: 0.8; } 50% { transform: scale(1.2); opacity: 1; filter: drop-shadow(0 0 8px var(--primary)); } 100% { transform: scale(0.95); opacity: 0.8; } }
 
-        /* Hero Shop Grid */
-        .shop-hero {
-            padding: 140px 40px 80px 40px;
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 420px;
-            gap: 50px;
-            align-items: center;
-        }
-        @media (max-width: 900px) {
-            .shop-hero { grid-template-columns: 1fr; padding-top: 100px; }
-        }
-
-        .hero-info h1 {
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 20px;
-            letter-spacing: -1px;
-            color: #fff;
-            line-height: 1.1;
-        }
-        .hero-info h1 span {
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .hero-info p {
-            font-size: 1.1rem;
-            color: #9a9ab0;
-            margin-bottom: 30px;
-        }
-        .features-list {
-            list-style: none;
+        /* Left Panel - Control Matrix & Metrics */
+        aside {
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            font-family: monospace;
-            font-size: 0.85rem;
-            color: #b0b0c0;
+            gap: 16px;
+            z-index: 5;
+            overflow-y: auto;
         }
-        .features-list li::before {
-            content: "✦ ";
+        .panel {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            backdrop-filter: blur(5px);
+        }
+        .panel h3 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
             color: var(--primary);
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .metric {
+            font-size: 1.6rem;
+            font-weight: 700;
+            font-family: monospace;
+            color: #fff;
+        }
+        .sub-metric { font-size: 0.7rem; color: #8a8a9d; margin-top: 4px; font-family: monospace; }
+
+        .slider-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 10px;
+        }
+        .slider-group label { font-size: 0.7rem; color: #9a9ab0; display: flex; justify-content: space-between; font-family: monospace; }
+        input[type=range] {
+            width: 100%;
+            accent-color: var(--primary);
+            background: #111;
+            height: 4px;
+            border-radius: 2px;
+            outline: none;
         }
 
-        /* Box Acquisto / Cart Checkout Card */
-        .checkout-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-            backdrop-filter: blur(10px);
+        /* Center Main - 3D Canvas */
+        main {
             position: relative;
+            background: radial-gradient(circle at center, #0a0a16 0%, #030305 100%);
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .checkout-card::before {
-            content: '';
+        #canvas-3d {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1;
         }
-        .stock-alert {
+        .hud-overlay {
+            position: absolute;
+            top: 20px; left: 20px; right: 20px;
+            display: flex;
+            justify-content: space-between;
+            pointer-events: none;
+            z-index: 2;
+        }
+        .hud-card {
+            background: rgba(3,3,5,0.7);
+            border: 1px solid var(--border);
+            padding: 8px 14px;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
             font-family: monospace;
+            font-size: 0.75rem;
+            color: #b0b0c0;
+        }
+
+        /* Right Panel - Product Acquisition & Console */
+        .right-panel {
+            background: var(--surface);
+            border-left: 1px solid var(--border);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            z-index: 5;
+            overflow-y: auto;
+        }
+        .purchase-box {
+            border: 1px solid var(--primary);
+            background: rgba(0, 255, 204, 0.03);
+            position: relative;
+        }
+        .stock-badge {
+            font-family: monospace;
+            font-size: 0.7rem;
             color: var(--secondary);
-            font-size: 0.8rem;
-            margin-bottom: 15px;
             text-transform: uppercase;
             letter-spacing: 1px;
+            margin-bottom: 8px;
         }
-        .product-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 5px;
-        }
-        .price-box {
-            font-size: 2.8rem;
+        .price-display {
+            font-size: 2rem;
             font-weight: 800;
             font-family: monospace;
             color: #fff;
-            margin: 20px 0;
+            margin-bottom: 12px;
             display: flex;
             align-items: baseline;
-            gap: 10px;
+            gap: 8px;
         }
-        .price-box span {
-            font-size: 0.9rem;
+        .price-display span {
+            font-size: 0.75rem;
             color: #8a8a9d;
             font-weight: normal;
         }
-        .paypal-wrapper {
-            margin-top: 20px;
+        .paypal-container {
+            margin-top: 12px;
             display: flex;
             justify-content: center;
         }
 
-        /* Sezione Live Preview del Prodotto */
-        .live-section {
-            max-width: 1200px;
-            margin: 0 auto 100px auto;
-            padding: 0 40px;
-        }
-        .section-title {
-            font-family: monospace;
-            color: var(--primary);
-            font-size: 0.9rem;
-            margin-bottom: 20px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-        .browser-mockup {
-            background: var(--surface);
+        .console {
+            flex-grow: 1;
+            background: #010103;
             border: 1px solid var(--border);
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.9);
-        }
-        .browser-bar {
-            background: rgba(0,0,0,0.6);
-            padding: 12px 20px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .dot { width: 10px; height: 10px; border-radius: 50%; background: #ff5f56; }
-        .dot:nth-child(2) { background: #ffbd2e; }
-        .dot:nth-child(3) { background: #27c93f; }
-        
-        iframe {
-            width: 100%;
-            height: 650px;
-            border: none;
-            background: #000;
-        }
-
-        footer {
-            text-align: center;
-            padding: 40px;
-            border-top: 1px solid var(--border);
-            color: #7a7a90;
-            font-size: 0.85rem;
+            border-radius: 8px;
+            padding: 12px;
             font-family: monospace;
+            font-size: 0.7rem;
+            color: var(--primary);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            min-height: 140px;
         }
+        .console-line { opacity: 0.85; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 0.85; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo">NEXUS_OS // CYBER SHOP</div>
-        <div class="shop-badge">SECURE ENCLAVE ACTIVE</div>
+        <div class="logo">NEXUS_CORE // 2026.AI</div>
+        <div class="status-pill">
+            <div class="pulse"></div>
+            QUANTUM SYNAPSE ACTIVE
+        </div>
+        <div style="font-family: monospace; font-size: 0.75rem; color: #8a8a9d;">LATENCY: 0.14ms</div>
     </header>
 
-    <section class="shop-hero">
-        <div class="hero-info">
-            <h1>Next-Gen Digital Asset for <span>Elite Creators</span></h1>
-            <p>Trasforma il tuo stream su Twitch o il tuo portfolio personale in un mainframe olografico avanzato con animazioni 3D in tempo reale.</p>
-            <ul class="features-list">
-                <li>100% Codice Puro (HTML5 / CSS3 / Vanilla JS)</li>
-                <li>Zero dipendenze esterne o librerie pesanti</li>
-                <li>Integrazione immediata in OBS Studio o Web Server</li>
-                <li>Licenza commerciale perpetua inclusa</li>
-            </ul>
+    <aside>
+        <div class="panel">
+            <h3>Neural Flux <span>[LIVE]</span></h3>
+            <div class="metric" id="flux-metric">97.76%</div>
+            <div class="sub-metric">Synaptic coherence stable</div>
         </div>
+        <div class="panel">
+            <h3>Memory Lattice</h3>
+            <div class="metric" id="mem-metric">1.28 PB</div>
+            <div class="sub-metric">Hyperdimensional tensor grid</div>
+        </div>
+        <div class="panel">
+            <h3>Control Matrix</h3>
+            <div class="slider-group">
+                <label><span>Entropy Level</span><span id="val-entropy">0.45</span></label>
+                <input type="range" id="slider-entropy" min="0" max="1" step="0.01" value="0.45">
+            </div>
+            <div class="slider-group" style="margin-top:14px;">
+                <label><span>Node Resonance</span><span id="val-resonance">7.83Hz</span></label>
+                <input type="range" id="slider-resonance" min="1" max="20" step="0.1" value="7.83">
+            </div>
+        </div>
+    </aside>
 
-        <div class="checkout-card">
-            <div class="stock-alert">⚡ DISPONIBILITÀ LIMITATA: <span id="count">12</span> COSIE RIMANENTI</div>
-            <div class="product-title">NexusOS Pro Source Code</div>
-            <div class="price-box">€100.00 <span>EUR / una tantum</span></div>
-            <p style="font-size: 0.8rem; color: #aaa; margin-bottom: 20px;">Ricevi l'accesso immediato all'archivio sorgente completo e documentazione tecnica.</p>
+    <main>
+        <div class="hud-overlay">
+            <div class="hud-card">DIMENSION: CYBER-SPATIAL 4D</div>
+            <div class="hud-card" id="fps-counter">FPS: 60</div>
+        </div>
+        <canvas id="canvas-3d"></canvas>
+    </main>
+
+    <div class="right-panel">
+        <div class="panel purchase-box">
+            <div class="stock-badge">⚡ LIMITED RELEASE: <span id="count">12</span> COPIES LEFT</div>
+            <h3>Acquire License</h3>
+            <div class="price-display">€100.00 <span>EUR</span></div>
+            <p style="font-size: 0.75rem; color: #9a9ab0; margin-bottom: 12px; line-height: 1.4;">Get instant complete source code access for your Twitch channel or portfolio.</p>
             
-            <!-- Pulsante PayPal ufficiale inserito -->
-            <div class="paypal-wrapper">
+            <div class="paypal-container">
                 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" onsubmit="decrementStock()">
                   <input type="hidden" name="cmd" value="_s-xclick" />
                   <input type="hidden" name="hosted_button_id" value="8RX2A39TT72T6" />
                   <input type="hidden" name="currency_code" value="EUR" />
-                  <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" title="PayPal, il metodo semplice e sicuro per pagare online" alt="Acquista ora" />
+                  <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online" alt="Buy Now" />
                 </form>
             </div>
         </div>
-    </section>
 
-    <div class="live-section">
-        <div class="section-title">▶ Test dell'interfaccia in tempo reale (Live Sandbox)</div>
-        <div class="browser-mockup">
-            <div class="browser-bar">
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <span style="font-family: monospace; font-size: 0.75rem; margin-left: 10px; color: #7a7a90;">nexus-os-core-preview.html</span>
+        <div class="panel" style="display:flex; flex-direction:column; flex-grow:1; min-height:0;">
+            <h3>Quantum Console</h3>
+            <div class="console" id="console-output">
+                <div class="console-line">> System initialized successfully.</div>
+                <div class="console-line">> Neural matrix loaded into VRAM.</div>
+                <div class="console-line">> Awaiting user parameter injection...</div>
             </div>
-            <!-- Anteprima interattiva integrata della dashboard -->
-            <iframe srcdoc='<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"><style>
-:root{--bg:#030305;--primary:#00ffcc;--secondary:#ff007f;--text:#e0e0e8;--surface:rgba(10,10,18,0.85);--border:rgba(0,255,204,0.2);}
-body{background:var(--bg);color:var(--text);font-family:sans-serif;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;margin:0;}
-canvas{position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;}
-.box{position:relative;z-index:2;background:var(--surface);border:1px solid var(--border);padding:30px;border-radius:16px;text-align:center;backdrop-filter:blur(10px);max-width:380px;}
-h2{margin-bottom:10px;color:var(--primary);letter-spacing:1px;font-size:1.2rem;}
-p{font-size:0.85rem;color:#aaa;margin-bottom:20px;}
-.btn{background:var(--primary);color:#000;border:none;padding:10px 20px;font-weight:bold;border-radius:8px;cursor:pointer;font-size:0.8rem;text-transform:uppercase;}
-</style></head>
-<body>
-<canvas id="c"></canvas>
-<div class="box">
-<h2>NEXUS CORE ENGINE</h2>
-<p>Simulatore particellare quantistico attivo. Interagisci per testare la risposta.</p>
-<button class="btn" onclick="alert(&#39;Sandbox test completato con successo! Il codice è reattivo.&#39;)">Inietta Comando</button>
-</div>
-<script>
-const cvs=document.getElementById("c"),cx=cvs.getContext("2d");
-function resize(){cvs.width=window.innerWidth;cvs.height=window.innerHeight;}
-window.addEventListener("resize",resize);resize();
-let pts=[];for(let i=0;i<180;i++)pts.push({x:(Math.random()-0.5)*cvs.width,y:(Math.random()-0.5)*cvs.height,vx:(Math.random()-0.5)*1.8,vy:(Math.random()-0.5)*1.8,c:Math.random()>0.5?"#00ffcc":"#ff007f"});
-function loop(){
-cx.fillStyle="rgba(3,3,5,0.2)";cx.fillRect(0,0,cvs.width,cvs.height);
-pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>cvs.width)p.vx*=-1;if(p.y<0||p.y>cvs.height)p.vy*=-1;cx.fillStyle=p.c;cx.fillRect(p.x,p.y,2,2);});
-requestAnimationFrame(loop);
-}loop();
-</script></body></html>'></iframe>
         </div>
     </div>
 
-    <footer>
-        <p>&copy; 2026 NexusOS Systems. Secure PayPal Checkout & Instant GitHub Delivery.</p>
-    </footer>
-
     <script>
-        // Logica per il contatore copie rimanenti (scala e si memorizza nel browser)
-        let stock = localStorage.getItem('nexus_cyber_stock');
+        // 3D Canvas Visual Engine
+        const canvas = document.getElementById('canvas-3d');
+        const ctx = canvas.getContext('2d');
+
+        function resize() {
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = canvas.parentElement.clientHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        let particles = [];
+        let numParticles = 300;
+        let entropy = 0.45;
+        let resonance = 7.83;
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = (Math.random() - 0.5) * canvas.width;
+                this.y = (Math.random() - 0.5) * canvas.height;
+                this.z = Math.random() * 800 - 400;
+                this.vx = (Math.random() - 0.5) * 2;
+                this.vy = (Math.random() - 0.5) * 2;
+                this.vz = (Math.random() - 0.5) * 2;
+                this.color = Math.random() > 0.5 ? '#00ffcc' : '#ff007f';
+                this.size = Math.random() * 2 + 1;
+            }
+            update() {
+                let angle = Date.now() * 0.001 * resonance * 0.1;
+                this.x += Math.sin(angle) * entropy * 3 + this.vx;
+                this.y += Math.cos(angle) * entropy * 3 + this.vy;
+                this.z += this.vz;
+
+                if (this.z < -400 || this.z > 400 || Math.abs(this.x) > canvas.width || Math.abs(this.y) > canvas.height) {
+                    this.reset();
+                }
+            }
+            draw() {
+                let fov = 400;
+                let scale = fov / (fov + this.z);
+                let x2d = canvas.width / 2 + this.x * scale;
+                let y2d = canvas.height / 2 + this.y * scale;
+
+                if (x2d >= 0 && x2d <= canvas.width && y2d >= 0 && y2d <= canvas.height) {
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    ctx.arc(x2d, y2d, this.size * scale, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+        }
+
+        for (let i = 0; i < numParticles; i++) particles.push(new Particle());
+
+        let lastTime = performance.now();
+        let frameCount = 0;
+        let fps = 60;
+
+        function animate(time) {
+            frameCount++;
+            if (time - lastTime >= 1000) {
+                fps = frameCount;
+                frameCount = 0;
+                lastTime = time;
+                document.getElementById('fps-counter').innerText = `FPS: ${fps}`;
+            }
+
+            ctx.fillStyle = 'rgba(3, 3, 5, 0.2)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            let cx = canvas.width / 2;
+            let cy = canvas.height / 2;
+            let timeFactor = time * 0.001 * resonance;
+
+            ctx.strokeStyle = 'rgba(0, 255, 204, 0.07)';
+            ctx.lineWidth = 1;
+            for (let r = 50; r < 450; r += 65) {
+                ctx.beginPath();
+                ctx.arc(cx, cy, r + Math.sin(timeFactor + r) * 10 * entropy, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            requestAnimationFrame(animate);
+        }
+        requestAnimationFrame(animate);
+
+        // Control Sliders Interaction
+        const sliderEntropy = document.getElementById('slider-entropy');
+        const valEntropy = document.getElementById('val-entropy');
+        sliderEntropy.addEventListener('input', (e) => {
+            entropy = parseFloat(e.target.value);
+            valEntropy.innerText = entropy.toFixed(2);
+            logConsole(`Entropy level adjusted to ${entropy}`);
+        });
+
+        const sliderResonance = document.getElementById('slider-resonance');
+        const valResonance = document.getElementById('val-resonance');
+        sliderResonance.addEventListener('input', (e) => {
+            resonance = parseFloat(e.target.value);
+            valResonance.innerText = resonance.toFixed(1) + 'Hz';
+            logConsole(`Resonance frequency shifted to ${resonance}Hz`);
+        });
+
+        // Console Logger
+        const consoleOutput = document.getElementById('console-output');
+        function logConsole(text) {
+            const line = document.createElement('div');
+            line.className = 'console-line';
+            line.innerText = `> ${text}`;
+            consoleOutput.appendChild(line);
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        }
+
+        setInterval(() => {
+            const flux = (97 + Math.random() * 2.98).toFixed(2);
+            document.getElementById('flux-metric').innerText = flux + '%';
+        }, 1500);
+
+        // Stock Counter Logic (Starts at 12 copies and decrements on purchase click)
+        let stock = localStorage.getItem('nexus_core_stock');
         if (stock === null) {
-            stock = 12; // Partiamo da 12 copie per dare un senso di esclusività
-            localStorage.setItem('nexus_cyber_stock', stock);
+            stock = 12;
+            localStorage.setItem('nexus_core_stock', stock);
         } else {
             stock = parseInt(stock);
         }
-        
         document.getElementById('count').innerText = stock;
 
         function decrementStock() {
-            if (stock > 2) { // Blocca la discesa a 2 per mantenere sempre attiva l'urgenza
+            if (stock > 3) {
                 stock--;
-                localStorage.setItem('nexus_cyber_stock', stock);
+                localStorage.setItem('nexus_core_stock', stock);
             }
         }
     </script>
