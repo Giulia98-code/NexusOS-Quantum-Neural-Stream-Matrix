@@ -152,7 +152,7 @@
             color: #b0b0c0;
         }
 
-        /* Right Panel - Product Acquisition & Console */
+        /* Right Panel - Sales Funnel & Checkout */
         .right-panel {
             background: var(--surface);
             border-left: 1px solid var(--border);
@@ -163,57 +163,62 @@
             z-index: 5;
             overflow-y: auto;
         }
-        .purchase-box {
-            border: 1px solid var(--primary);
-            background: rgba(0, 255, 204, 0.03);
-            position: relative;
+        .product-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 4px;
         }
-        .stock-badge {
-            font-family: monospace;
-            font-size: 0.7rem;
-            color: var(--secondary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
+        .product-desc {
+            font-size: 0.75rem;
+            color: #9a9ab0;
+            line-height: 1.4;
+            margin-bottom: 12px;
         }
-        .price-display {
-            font-size: 2rem;
+        .price-tag {
+            font-size: 1.8rem;
             font-weight: 800;
             font-family: monospace;
-            color: #fff;
-            margin-bottom: 12px;
+            color: var(--primary);
+            margin-bottom: 8px;
             display: flex;
             align-items: baseline;
-            gap: 8px;
+            justify-content: space-between;
         }
-        .price-display span {
-            font-size: 0.75rem;
-            color: #8a8a9d;
-            font-weight: normal;
-        }
-        .paypal-container {
-            margin-top: 12px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .console {
-            flex-grow: 1;
-            background: #010103;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 12px;
-            font-family: monospace;
+        .stock-badge {
             font-size: 0.7rem;
-            color: var(--primary);
-            overflow-y: auto;
+            background: rgba(255, 0, 127, 0.15);
+            border: 1px solid var(--secondary);
+            color: var(--secondary);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            text-transform: uppercase;
+        }
+        .checkout-box {
+            background: rgba(0,0,0,0.4);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            text-align: center;
+        }
+        .features-list {
+            list-style: none;
+            font-size: 0.75rem;
+            color: #b0b0c0;
+            text-align: left;
             display: flex;
             flex-direction: column;
             gap: 6px;
-            min-height: 140px;
+            margin-bottom: 4px;
         }
-        .console-line { opacity: 0.85; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 0.85; transform: translateY(0); } }
+        .features-list li::before {
+            content: "✦ ";
+            color: var(--primary);
+        }
     </style>
 </head>
 <body>
@@ -260,29 +265,35 @@
     </main>
 
     <div class="right-panel">
-        <div class="panel purchase-box">
-            <div class="stock-badge">⚡ LIMITED RELEASE: <span id="count">12</span> COPIES LEFT</div>
-            <h3>Acquire License</h3>
-            <div class="price-display">€100.00 <span>EUR</span></div>
-            <p style="font-size: 0.75rem; color: #9a9ab0; margin-bottom: 12px; line-height: 1.4;">Get instant complete source code access for your Twitch channel or portfolio.</p>
+        <div class="panel">
+            <div class="product-title">NexusOS 3D Interface</div>
+            <div class="product-desc">High-end interactive 3D neural stream sandbox designed for modern web applications and futuristic digital dashboards.</div>
             
-            <div class="paypal-container">
-                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" onsubmit="decrementStock()">
-                  <input type="hidden" name="cmd" value="_s-xclick" />
-                  <input type="hidden" name="hosted_button_id" value="8RX2A39TT72T6" />
-                  <input type="hidden" name="currency_code" value="EUR" />
-                  <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online" alt="Buy Now" />
-                </form>
+            <div class="price-tag">
+                <span>€100</span>
+                <span class="stock-badge">Only 15 Copies Left</span>
             </div>
+
+            <ul class="features-list">
+                <li>Full HTML/CSS/JS Source Code</li>
+                <li>Real-time 3D Particle Engine</li>
+                <li>Instant Download via Google Drive</li>
+                <li>Commercial License Included</li>
+            </ul>
         </div>
 
-        <div class="panel" style="display:flex; flex-direction:column; flex-grow:1; min-height:0;">
-            <h3>Quantum Console</h3>
-            <div class="console" id="console-output">
-                <div class="console-line">> System initialized successfully.</div>
-                <div class="console-line">> Neural matrix loaded into VRAM.</div>
-                <div class="console-line">> Awaiting user parameter injection...</div>
-            </div>
+        <div class="panel checkout-box">
+            <div style="font-size: 0.75rem; font-family: monospace; color: var(--primary); margin-bottom: 4px;">SECURE INSTANT CHECKOUT</div>
+            
+            <!-- Il tuo pulsante PayPal ufficiale -->
+            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+              <input type="hidden" name="cmd" value="_s-xclick" />
+              <input type="hidden" name="hosted_button_id" value="UV5WYLNHW42R6" />
+              <input type="hidden" name="currency_code" value="EUR" />
+              <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online" alt="Buy Now" />
+            </form>
+
+            <div style="font-size: 0.65rem; color: #6a6a7c; font-family: monospace;">Immediate redirect to source code package upon payment completion.</div>
         </div>
     </div>
 
@@ -387,7 +398,6 @@
         sliderEntropy.addEventListener('input', (e) => {
             entropy = parseFloat(e.target.value);
             valEntropy.innerText = entropy.toFixed(2);
-            logConsole(`Entropy level adjusted to ${entropy}`);
         });
 
         const sliderResonance = document.getElementById('slider-resonance');
@@ -395,40 +405,12 @@
         sliderResonance.addEventListener('input', (e) => {
             resonance = parseFloat(e.target.value);
             valResonance.innerText = resonance.toFixed(1) + 'Hz';
-            logConsole(`Resonance frequency shifted to ${resonance}Hz`);
         });
-
-        // Console Logger
-        const consoleOutput = document.getElementById('console-output');
-        function logConsole(text) {
-            const line = document.createElement('div');
-            line.className = 'console-line';
-            line.innerText = `> ${text}`;
-            consoleOutput.appendChild(line);
-            consoleOutput.scrollTop = consoleOutput.scrollHeight;
-        }
 
         setInterval(() => {
             const flux = (97 + Math.random() * 2.98).toFixed(2);
             document.getElementById('flux-metric').innerText = flux + '%';
         }, 1500);
-
-        // Stock Counter Logic (Starts at 12 copies and decrements on purchase click)
-        let stock = localStorage.getItem('nexus_core_stock');
-        if (stock === null) {
-            stock = 12;
-            localStorage.setItem('nexus_core_stock', stock);
-        } else {
-            stock = parseInt(stock);
-        }
-        document.getElementById('count').innerText = stock;
-
-        function decrementStock() {
-            if (stock > 3) {
-                stock--;
-                localStorage.setItem('nexus_core_stock', stock);
-            }
-        }
     </script>
 </body>
 </html>
